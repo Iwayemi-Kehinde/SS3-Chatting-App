@@ -4,6 +4,7 @@ import loginBackground from "../../assets/login2.png";
 import { toast } from "react-toastify";
 import {HOST} from "../../utils/constants.ts"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   email: string;
@@ -17,6 +18,8 @@ const Auth = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const navigate = useNavigate()
 
   const [isSignUp, setIsSignUp] = React.useState<boolean>(true);
 
@@ -52,13 +55,27 @@ const Auth = () => {
     if (isSignUp) {
       axios
         .post(
-          `${HOST}/api/auth/signup`,
+          `${HOST}api/auth/signup`,
           { email: formData.email, password: formData.password }
         )
-        .then(() => toast.success("Successful Signup"))
+        .then((res) => {
+          if (res.status === 201) {
+            toast.success("Successful!")
+            navigate("/profile")
+          }
+        })
         .catch((err) => toast.error(err.response.data.message));
     } else {
-      axios.post("http://localhost:8000/api/auth/signin", { email: formData.email, password: formData.password }).then(() => toast.success("Successfull Signin")).catch((error: any) => console.log(error))
+      axios.post(`${HOST}api/auth/signin`, { email: formData.email, password: formData.password }).then((res) => {
+        if (res.data.user.id) {
+          toast.success("Successful!")
+          if (res.data.user.profileSetup) {
+            navigate("/chat")
+          } else {
+            navigate("/profile")
+          }
+        }
+      }).catch((err) => toast.error(err.response.data))
     }
   }
   
