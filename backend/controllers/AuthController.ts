@@ -12,7 +12,9 @@ const createToken = (email: string, userId: any) => {
     expiresIn: maxAge,
   });
 };
-
+interface CustomType extends Request {
+  userId?: any;
+}
 export const signup = async (
   req: Request,
   res: Response,
@@ -21,9 +23,8 @@ export const signup = async (
   try {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
-      return res.status(409).json({message: "User already exists"})
+      return res.status(409).json({ message: "User already exists" });
     }
 
     const user = await User.create({
@@ -46,11 +47,10 @@ export const signup = async (
         // firstName: user.firstName,
         // lastName: user.lastName,
         // image: user.image,
-        profileSetup: user.profileSetup
-      }
+        profileSetup: user.profileSetup,
+      },
     });
-  } catch (error: any) {
-  }
+  } catch (error: any) {}
 };
 
 export const signin = async (
@@ -62,7 +62,7 @@ export const signin = async (
     const { email, password } = req.body;
 
     const user = await User.findOne({
-      email: email
+      email: email,
     });
 
     if (!user) {
@@ -79,7 +79,7 @@ export const signin = async (
       maxAge,
       secure: true,
       httpOnly: true,
-      sameSite: "none"
+      sameSite: "none",
     });
 
     // const {password: pass,  ...rest} = user.toObject()
@@ -91,8 +91,27 @@ export const signin = async (
         firstName: user.firstName,
         lastName: user.lastName,
         image: user.image,
-        color: user.color
-      }
+        color: user.color,
+      },
+    });
+  } catch (error) {}
+};
+
+export const getUserInfo = async (req: CustomType, res: Response) => {
+  try {
+    const userData = await User.findById(req.userId);
+    if (!userData) {
+      return res.status(404).send("User with the given id not found");
+    }
+
+    return res.status(201).json({
+      id: userData.id,
+      email: userData.email,
+      profileSetup: userData.profileSetup,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      image: userData.image,
+      color: userData.color,
     });
   } catch (error) {}
 };

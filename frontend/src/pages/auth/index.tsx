@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import {HOST} from "../../utils/constants.ts"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAppStore } from "../../store/index.ts";
 
 interface FormData {
   email: string;
@@ -20,7 +21,7 @@ const Auth = () => {
   });
 
   const navigate = useNavigate()
-
+  const {setUserInfo} = useAppStore()
   const [isSignUp, setIsSignUp] = React.useState<boolean>(true);
 
   const validateForm = () => {
@@ -68,7 +69,8 @@ const Auth = () => {
     } else {
       axios.post(`${HOST}api/auth/signin`, { email: formData.email, password: formData.password }).then((res) => {
         if (res.data.user.id) {
-          toast.success("Successful!")
+          toast.success("Successful!") 
+          setUserInfo(res.data.user)
           if (res.data.user.profileSetup) {
             navigate("/chat")
           } else {

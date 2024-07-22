@@ -1,6 +1,8 @@
+import { useAppStore } from "../../store"
 const Profile = () => {
+  const {userInfo} = useAppStore()
   return (
-    <div>PROFILE</div>
+    <div>{ userInfo?.id }</div>
   )
 } 
 
