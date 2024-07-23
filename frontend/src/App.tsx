@@ -12,16 +12,16 @@ import { HOST } from "./utils/constants.ts";
 // interface children {
 //   Children: React.ReactNode;
 // }
-const PrivateRoute = ({ Children }: any) => {
+const PrivateRoute = ({ children }: any) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
-  return isAuthenticated ? Children : <Navigate to="/auth" />;
+  return isAuthenticated ? children : <Navigate to="/auth" />;
 };
 
-const AuthRoute = ({ Children }: any) => {
+const AuthRoute = ({ children }: any) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
-  return isAuthenticated ? <Navigate to="/chat" /> : Children;
+  return isAuthenticated ? <Navigate to="/chat" /> : children;
 };
 
 function App() {

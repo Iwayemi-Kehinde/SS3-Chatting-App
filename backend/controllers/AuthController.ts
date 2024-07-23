@@ -32,14 +32,7 @@ export const signup = async (
       password: password,
     });
 
-    const token = createToken(email, user._id);
-
-    res.cookie("token", token, {
-      maxAge: maxAge,
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-    });
-
+    res.cookie("token", createToken(email, user._id));
     return res.status(201).json({
       user: {
         id: user.id,
@@ -75,12 +68,7 @@ export const signin = async (
       return res.status(400).json("Email or password Incorrect");
     }
 
-    res.cookie("token", createToken(email, user._id), {
-      maxAge,
-      secure: true,
-      httpOnly: true,
-      sameSite: "none",
-    });
+    res.cookie("token", createToken(email, user._id));
 
     // const {password: pass,  ...rest} = user.toObject()
     return res.status(201).json({
