@@ -2,7 +2,6 @@ type UserInfo = {
   id: string;
   name: string;
   email: string;
-  // Add other properties as needed
 };
 
 export type AuthSlice = {

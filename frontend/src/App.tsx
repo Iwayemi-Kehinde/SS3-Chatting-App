@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import React from "react"
+import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./pages/auth/index.tsx";
 import Chat from "./pages/chat/index.tsx";
@@ -21,36 +21,38 @@ const PrivateRoute = ({ Children }: any) => {
 const AuthRoute = ({ Children }: any) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
-  return isAuthenticated ? Children : <Navigate to="/chat" />;
+  return isAuthenticated ? <Navigate to="/chat" /> : Children;
 };
 
 function App() {
-  const { userInfo, setUserInfo } = useAppStore()
-  const [loading, setLoading] = React.useState(true)
+  const { userInfo, setUserInfo } = useAppStore();
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    const getUserData = async () => { 
+    const getUserData = async () => {
       try {
-        const res = await axios.get(`${HOST}api/auth/userInfo`, { withCredentials: true })
+        const res = await axios.get(`${HOST}api/auth/userInfo`, {
+          withCredentials: true,
+        });
         if (res.status === 200 && res.data.id) {
-          setUserInfo(res.data)
+          setUserInfo(res.data);
         } else {
-          setUserInfo(undefined)
+          setUserInfo(undefined);
         }
       } catch (error) {
-        setUserInfo(undefined)
-        console.log(error)
+        setUserInfo(undefined);
+        console.log(error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
     if (!userInfo) {
-      getUserData()
+      getUserData();
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [userInfo, setUserInfo])
+  }, [userInfo, setUserInfo]);
   if (loading) {
-    return <div>Loading....</div>
+    return <div>Loading....</div>;
   }
   return (
     <>
@@ -85,11 +87,14 @@ function App() {
               </PrivateRoute>
             }
           ></Route>
-          <Route path="/profile" element={
-            <PrivateRoute>
-              <Profile />
-            </PrivateRoute>
-          }></Route>
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
