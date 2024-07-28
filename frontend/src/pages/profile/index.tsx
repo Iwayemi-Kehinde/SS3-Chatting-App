@@ -15,6 +15,13 @@ const Profile = () => {
   const [hovered, setHovered] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(0);
 
+  const handleNavigate = () => {
+    if (userInfo.profileSetup) {
+      navigate("/chat")
+    } else {
+      toast.error("Fill in the fields!")
+    } 
+  }
 
   const validateProfile = () => {
     if (!firstName) {
@@ -47,7 +54,7 @@ const Profile = () => {
       {/* {userInfo?.id} */}
       <div className="flex flex-col gap-10 w-[80vw] md:w-max">
         <div>
-          <IoMdArrowBack className="text-4xl lg:text-6xl text-white/50 cursor-pointer hover:opacity-80" />
+          <IoMdArrowBack onClick={handleNavigate} className="text-4xl lg:text-6xl text-white/50 cursor-pointer hover:opacity-80" />
         </div>
         <div className="grid grid-cols-2">
           <div
