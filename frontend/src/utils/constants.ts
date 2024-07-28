@@ -9,3 +9,7 @@ export const colors = [
   "bg-[#3f51b5] text-[#c5cae9] border-[1px] border-[#1e88e5]", // Blue
   "bg-[#f57c00] text-[#fff3e0] border-[1px] border-[#f57c00]"  // Orange
 ];
+
+export const getColors = (color: number) => { 
+    return colors[color]
+}

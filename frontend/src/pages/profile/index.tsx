@@ -3,7 +3,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { FaTrash, FaPlus } from "react-icons/fa"
-import { colors } from "../../utils/constants"
+import { colors, getColors, HOST } from "../../utils/constants"
+import { toast } from "react-toastify";
+import axios from "axios";
 const Profile = () => {
   const { userInfo, setUserInfo } = useAppStore();
   const navigate = useNavigate();
@@ -13,13 +15,39 @@ const Profile = () => {
   const [hovered, setHovered] = React.useState(false);
   const [selectedColor, setSelectedColor] = React.useState(0);
 
-  const saveChanges = async () => {};
+
+  const validateProfile = () => {
+    if (!firstName) {
+      toast.error("FirstName is reqiured")
+      return false
+    }
+    if (!lastName) {
+      toast.error("LastName is reqiured")
+      return false
+    }
+    return true
+  }
+  const saveChanges = async () => { 
+    if (validateProfile()) {
+      try {
+        const res = await axios.post(`${HOST}update-profile`, { firstName, lastName, color: selectedColor }, { withCredentials: true })
+        if (res.status === 200 && res.data) {
+          setUserInfo({...res.data})
+          toast.success("Profile setup successfully")
+          navigate("/chat")
+        } 
+      } catch (error) {
+        console.log({error})
+      }
+    }
+  };
+
   return (
-    <div className="bg-blue-100 h-[100vh] flex flex-col items-center justify-center gap-10">
-      {userInfo?.id}
+    <div className="bg-[#1b1c24] h-[100vh] flex flex-col items-center justify-center gap-10">
+      {/* {userInfo?.id} */}
       <div className="flex flex-col gap-10 w-[80vw] md:w-max">
         <div>
-          <IoMdArrowBack className="text-4xl lg:text-6xl text-black cursor-pointer hover:opacity-80" />
+          <IoMdArrowBack className="text-4xl lg:text-6xl text-white/50 cursor-pointer hover:opacity-80" />
         </div>
         <div className="grid grid-cols-2">
           <div
@@ -35,7 +63,7 @@ const Profile = () => {
                   className="object-cover w-full h-full bg-black"
                 />
               ) : (
-                <div className="uppercase h-32 w-32 md:w-48 md:h-48 text-5xl border-[1px] flex item-center justify-center rounded-full ">
+                <div className={`uppercase h-32 w-32 md:w-48 md:h-48 text-5xl border-[1px] flex items-center justify-center rounded-full ${getColors(selectedColor)}`}>
                   {firstName
                     ? firstName.split("").shift()
                     : userInfo?.email.split("").shift()}
@@ -51,14 +79,15 @@ const Profile = () => {
                 )}
               </div>
             )}
-            <div className="flex md:min-w-64 flex-col gap-5 text-white items-center justify-center">
+          </div>
+            <div className="flex min-w-32 md:min-w-64 flex-col gap-5 text-white items-center justify-center">
               <div className="w-full">
                 <input
                   placeholder="Email"
                   type="email"
                   disabled
                   value={userInfo?.email}
-                  className="rounded-lg p-6 border-none"
+                className="rounded-lg p-6 border-none bg-[#2c2e3b]"
                 />
               </div>
 
@@ -66,10 +95,9 @@ const Profile = () => {
                 <input
                   placeholder="first name"
                   type="text"
-                  disabled
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="rounded-lg p-6 border-none"
+                  className="rounded-lg p-6 border-none  bg-[#2c2e3b] outline-none"
                 />
               </div>
 
@@ -77,23 +105,24 @@ const Profile = () => {
                 <input
                   placeholder="Last name"
                   type="text"
-                  disabled
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="rounded-lg p-6 border-none"
+                  className="rounded-lg p-6 border-none  bg-[#2c2e3b] outline-none"
                 />
               </div>
               <div className="w-full flex gap-5">
                 {colors.map((color: string, index: number) => (
                   <div
                     key={index}
+                    className={`${color} md:h-10 md:w-10 h-8 w-8 cursor-pointer rounded-full duration-300 transition-all ${selectedColor === index ? "outline outline-white/50 outline-1" : ""}`}
                     onClick={() => setSelectedColor(index)}
-                    className={`${color} h-8 w-8 cursor-pointer duration-300 transition-all ${selectedColor === index ? "outline outline-white/50 outline-1" : ""}`}
                   ></div>
                 ))}
               </div>
             </div>
-          </div>
+        </div>
+        <div className="w-full">
+          <button className="h-16 w-full bg-purple-700 text-white text-lg hover:bg-purple-900 transition-all duration-300 rounded-md" onClick={saveChanges}>Save changes</button>
         </div>
       </div>
     </div>

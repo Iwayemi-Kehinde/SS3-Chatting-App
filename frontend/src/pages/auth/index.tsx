@@ -2,7 +2,7 @@ import React from "react";
 import victoryImg from "../../assets/victory.svg";
 import loginBackground from "../../assets/login2.png";
 import { toast } from "react-toastify";
-import {HOST} from "../../utils/constants.ts"
+import { HOST } from "../../utils/constants.ts";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store/index.ts";
@@ -20,8 +20,8 @@ const Auth = () => {
     confirmPassword: "",
   });
 
-  const navigate = useNavigate()
-  const {setUserInfo} = useAppStore()
+  const navigate = useNavigate();
+  const { setUserInfo } = useAppStore();
   const [isSignUp, setIsSignUp] = React.useState<boolean>(true);
 
   const validateForm = () => {
@@ -52,35 +52,42 @@ const Auth = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
-
-    if (isSignUp) {
-      axios
-        .post(
-          `${HOST}api/auth/signup`,
-          { email: formData.email, password: formData.password }
-        )
-        .then((res) => {
-          if (res.status === 201) {
-            toast.success("Successful!")
-            navigate("/profile")
-          }
-        })
-        .catch((err) => toast.error(err.response.data.message));
-    } else {
-      axios.post(`${HOST}api/auth/signin`, { email: formData.email, password: formData.password }).then((res) => {
-        if (res.data.user.id) {
-          toast.success("Successful!") 
-          setUserInfo(res.data.user)
-          if (res.data.user.profileSetup) {
-            navigate("/chat")
-          } else {
-            navigate("/profile")
-          }
-        }
-      }).catch((err) => toast.error(err.response.data))
+    try {
+      if (isSignUp) {
+        axios
+          .post(`${HOST}api/auth/signup`, {
+            email: formData.email,
+            password: formData.password,
+          }, {withCredentials: true})
+          .then((res) => {
+            if (res.status === 201) {
+              toast.success("Successfull");
+              setUserInfo(res.data.user);
+              navigate("/profile");
+            }
+          })
+          .catch((err) => toast.error(err.response.data.message));
+      } else {
+        axios
+          .post(`${HOST}api/auth/signin`, {
+            email: formData.email,
+            password: formData.password,
+          }, {withCredentials: true})
+          .then((res) => {
+            if (res.data.user.id) {
+              if (res.data.user.profileSetup) {
+                navigate("/chat");
+              } else {
+                navigate("/profile");
+              }
+            }
+          })
+          .catch((err) => toast.error(err.response.data));
+      }
+    } catch (error) {
+      console.log(error)
     }
-  }
-  
+  };
 
   return (
     <div className="min-h-[100vh] bg-blue-100 flex justify-center">
@@ -160,5 +167,5 @@ const Auth = () => {
       </div>
     </div>
   );
-}
+};
 export default Auth;

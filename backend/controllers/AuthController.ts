@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, response } from "express";
 import { User } from "../models/UserModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { REPL_MODE_STRICT } from "repl";
 
 const maxAge = 3 * 24 * 60 * 1000;
 const createToken = (email: string, userId: any) => {
@@ -32,14 +33,11 @@ export const signup = async (
       password: password,
     });
 
-    res.cookie("token", createToken(email, user._id));
+     res.cookie("token", createToken(email, user._id));
     return res.status(201).json({
       user: {
         id: user.id,
         email: user.email,
-        // firstName: user.firstName,
-        // lastName: user.lastName,
-        // image: user.image,
         profileSetup: user.profileSetup,
       },
     });
@@ -82,6 +80,7 @@ export const signin = async (
         color: user.color,
       },
     });
+
   } catch (error) {}
 };
 
@@ -101,5 +100,34 @@ export const getUserInfo = async (req: CustomType, res: Response) => {
       image: userData.image,
       color: userData.color,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log({ error })
+    res.status(500).send("Internal server error")
+  }
 };
+
+
+export const updateProfile = async (req: CustomType, res: Response, next: NextFunction) => {
+  try {
+    const { firstName, lastName, color } = req.body
+    if (!firstName || !lastName) {
+      return res.status(400).send("FirstName, LastName and Color is Required")
+    }
+    const userData = await User.findByIdAndUpdate(req.userId, {firstName, lastName, color, profileSetup: true}, {new: true, runValidators: true})
+    if (!userData) {
+      return res.status(404).send("User with the given ID not found")
+    }
+    return res.status(200).json({
+      id: userData.id,
+      email: userData.email,
+      profileSetup: userData.profileSetup,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      image: userData.image,
+      color: userData.color,
+    })
+  } catch (error) {
+    console.log({error})
+    res.status(500).send("Internal server error")
+  }
+}

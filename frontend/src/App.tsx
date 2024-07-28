@@ -26,6 +26,7 @@ const AuthRoute = ({ children }: any) => {
 
 function App() {
   const { userInfo, setUserInfo } = useAppStore();
+
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     const getUserData = async () => {
