@@ -2,6 +2,11 @@ type UserInfo = {
   id: string;
   name: string;
   email: string;
+  firstName?: string;
+  lastName?: string;
+  image?: string;
+  color?: number;
+  profileSetup?: Boolean
 };
 
 export type AuthSlice = {

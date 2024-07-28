@@ -1,6 +1,12 @@
 import { create } from "zustand";
-import { AuthSlice, createAuthSlice } from "./slices/authSlice";
+
+
+export interface AuthSlice {
+  userInfo?: any;
+  setUserInfo: (userInfo: any) => void;
+}
 
 export const useAppStore = create<AuthSlice>((set) => ({
-  ...createAuthSlice(set),
+  userInfo: undefined,
+  setUserInfo: (userInfo) => set({ userInfo }),
 }));

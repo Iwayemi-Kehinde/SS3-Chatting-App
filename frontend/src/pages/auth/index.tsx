@@ -61,7 +61,6 @@ const Auth = () => {
           }, {withCredentials: true})
           .then((res) => {
             if (res.status === 201) {
-              toast.success("Successfull");
               setUserInfo(res.data.user);
               navigate("/profile");
             }
@@ -74,13 +73,12 @@ const Auth = () => {
             password: formData.password,
           }, {withCredentials: true})
           .then((res) => {
-            if (res.data.user.id) {
+              setUserInfo(res.data.user);
               if (res.data.user.profileSetup) {
                 navigate("/chat");
               } else {
                 navigate("/profile");
               }
-            }
           })
           .catch((err) => toast.error(err.response.data));
       }

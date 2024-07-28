@@ -15,6 +15,7 @@ import { HOST } from "./utils/constants.ts";
 const PrivateRoute = ({ children }: any) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
+  console.log(userInfo)
   return isAuthenticated ? children : <Navigate to="/auth" />;
 };
 
@@ -34,7 +35,7 @@ function App() {
         const res = await axios.get(`${HOST}api/auth/userInfo`, {
           withCredentials: true,
         });
-        if (res.status === 200 && res.data.id) {
+        if (res.status === 201 && res.data.id) {
           setUserInfo(res.data);
         } else {
           setUserInfo(undefined);

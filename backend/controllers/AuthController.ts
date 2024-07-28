@@ -2,7 +2,6 @@ import { Request, Response, NextFunction, response } from "express";
 import { User } from "../models/UserModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { REPL_MODE_STRICT } from "repl";
 
 const maxAge = 3 * 24 * 60 * 1000;
 const createToken = (email: string, userId: any) => {
@@ -115,7 +114,7 @@ export const updateProfile = async (req: CustomType, res: Response, next: NextFu
     }
     const userData = await User.findByIdAndUpdate(req.userId, {firstName, lastName, color, profileSetup: true}, {new: true, runValidators: true})
     if (!userData) {
-      return res.status(404).send("User with the given ID not found")
+      return res.status(404).json("User with the given ID not found")
     }
     return res.status(200).json({
       id: userData.id,

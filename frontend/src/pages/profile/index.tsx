@@ -30,10 +30,10 @@ const Profile = () => {
   const saveChanges = async () => { 
     if (validateProfile()) {
       try {
-        const res = await axios.post(`${HOST}update-profile`, { firstName, lastName, color: selectedColor }, { withCredentials: true })
+        const res = await axios.post(`${HOST}api/auth/update-profile`, { firstName, lastName, color: selectedColor }, { withCredentials: true })
         if (res.status === 200 && res.data) {
           setUserInfo({...res.data})
-          toast.success("Profile setup successfully")
+          toast.success(`${res.data.firstName}, Now begin to chat with your loved ones`)
           navigate("/chat")
         } 
       } catch (error) {
