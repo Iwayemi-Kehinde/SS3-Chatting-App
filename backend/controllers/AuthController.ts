@@ -2,6 +2,7 @@ import { Request, Response, NextFunction, response } from "express";
 import { User } from "../models/UserModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import {renameSync, unlinkSync} from "fs"
 
 const maxAge = 3 * 24 * 60 * 1000;
 const createToken = (email: string, userId: any) => {
@@ -14,6 +15,7 @@ const createToken = (email: string, userId: any) => {
 };
 interface CustomType extends Request {
   userId?: any;
+  file?: any
 }
 export const signup = async (
   req: Request,
@@ -130,3 +132,42 @@ export const updateProfile = async (req: CustomType, res: Response, next: NextFu
     res.status(500).send("Internal server error")
   }
 }
+
+
+export const addProfileImage = async (req: CustomType, res:Response, next:NextFunction) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("File is required")
+    }
+    const date = Date.now()
+    let filename = "uploads/profiles/" + date + req.file.originalname
+    renameSync(req.file.path, filename)
+    const updatedUser = await User.findByIdAndUpdate(req.userId, { image: filename }, { new: true, runValidators: true })
+    return res.status(200).json({
+      image: updatedUser?.image
+    })
+  }catch (error) {
+    console.log({ error })
+    return res.status(500).send("Internal server error")
+  }
+}
+
+
+
+export const deleteProfileImage = async (req: CustomType, res: Response, next: NextFunction) => {
+  try {
+    const user = await User.findById(req.userId)
+    if (!user) {
+      return response.sendStatus(404)
+    }
+    if (user.image) {
+      unlinkSync(user.image)
+    }
+    user.image = null
+    await user.save()
+    return res.status(200).json("Deleted successfully")
+  } catch (error) {
+    console.log({ error })
+    return res.status(500).send("Internal server error")
+  }
+ }
