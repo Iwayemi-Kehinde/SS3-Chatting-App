@@ -18,7 +18,7 @@ const Profile = () => {
   React.useEffect(() => {
     if (userInfo.profileSetup) {
       setFirstName(userInfo.firstName);
-      setLastName(userInfo.firstName);
+      setLastName(userInfo.lastName);
       setSelectedColor(userInfo.color);
     }
     if (userInfo.image) {
