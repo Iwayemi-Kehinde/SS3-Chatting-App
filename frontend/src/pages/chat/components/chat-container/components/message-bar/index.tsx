@@ -10,7 +10,9 @@ const MessageBar = () => {
   const handleMessage = async () => {
     
   }
-  const emojiRef = React.useRef(null)
+
+
+  const emojiRef = React.useRef(null) as any
 
 React.useEffect(() => {
   function handleClickOutside(event: Event){
