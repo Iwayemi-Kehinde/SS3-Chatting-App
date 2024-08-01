@@ -80,7 +80,7 @@ const Auth = () => {
                 navigate("/profile");
               }
           })
-          .catch((err) => toast.error(err.response.data));
+          .catch((err) => toast.error(err.response.data.message));
       }
     } catch (error) {
       console.log(error)

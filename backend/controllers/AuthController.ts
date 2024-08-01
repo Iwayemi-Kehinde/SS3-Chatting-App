@@ -42,7 +42,9 @@ export const signup = async (
         profileSetup: user.profileSetup,
       },
     });
-  } catch (error: any) {}
+  } catch (error: any) {
+    console.log(error)
+  }
 };
 
 export const signin = async (
@@ -82,7 +84,9 @@ export const signin = async (
       },
     });
 
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export const getUserInfo = async (req: CustomType, res: Response) => {
@@ -103,7 +107,7 @@ export const getUserInfo = async (req: CustomType, res: Response) => {
     });
   } catch (error) {
     console.log({ error })
-    res.status(500).send("Internal server error")
+    res.status(500).send("Server error")
   }
 };
 
