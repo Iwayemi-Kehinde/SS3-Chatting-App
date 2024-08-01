@@ -171,3 +171,13 @@ export const deleteProfileImage = async (req: CustomType, res: Response, next: N
     return res.status(500).send("Internal server error")
   }
  }
+
+ export const logout = async (req: CustomType, res: Response) => {
+  try {
+    res.clearCookie("token")
+    return res.status(200).json("Logout successfull")
+  } catch(error) {
+    console.log(error)
+    return res.status(500).json({error})
+  }
+ }

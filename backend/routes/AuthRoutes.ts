@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { signup, signin, getUserInfo, updateProfile, addProfileImage,deleteProfileImage } from "../controllers/AuthController"
+import { signup, signin, getUserInfo, updateProfile, addProfileImage,deleteProfileImage, logout } from "../controllers/AuthController"
 import { verifyToken } from "../middlewares/AuthMiddleware"
 import multer from "multer"
 
@@ -17,4 +17,5 @@ authRoute.post("/update-profile", verifyToken, updateProfile)
 authRoute.get("/userInfo", verifyToken, getUserInfo)
 authRoute.post("/add-profile-image", verifyToken, upload.single("profile-image"), addProfileImage)
 authRoute.delete("/remove-profile-image", verifyToken, deleteProfileImage)
+authRoute.post("/logout", logout)
 export default authRoute

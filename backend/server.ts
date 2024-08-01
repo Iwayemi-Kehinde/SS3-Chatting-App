@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import AuthRoute from "./routes/AuthRoutes"
 import { Request, Response, NextFunction } from "express";
+import ContactRoutes from "./routes/ContactRoutes";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use("/uploads/profiles", express.static("uploads/profiles"))
 app.use(cookieParser())
 app.use(express.json())
 app.use("/api/auth", AuthRoute)
+app.use("api/contact", ContactRoutes)
 
 //db connect
 mongoose
