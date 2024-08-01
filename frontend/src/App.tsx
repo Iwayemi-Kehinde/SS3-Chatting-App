@@ -3,15 +3,13 @@ import { ToastContainer } from "react-toastify";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./pages/auth/index.tsx";
-import Chat from "./pages/chat/index.tsx";
+import Chat from "./pages/chat/Index.tsx";
 import Profile from "./pages/profile/index.tsx";
 import { useAppStore } from "./store/index.ts";
 import axios from "axios";
 import { HOST } from "./utils/constants.ts";
 
-// interface children {
-//   Children: React.ReactNode;
-// }
+
 const PrivateRoute = ({ children }: any) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
@@ -84,9 +82,7 @@ function App() {
           <Route
             path="/chat"
             element={
-              <PrivateRoute>
                 <Chat />
-              </PrivateRoute>
             }
           ></Route>
           <Route
