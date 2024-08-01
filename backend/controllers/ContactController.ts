@@ -20,7 +20,7 @@ export const searchContacts = async (req: CustomType, res: Response, next: NextF
     
         const regex = new RegExp(sanitizedSearchTerm, "i")
     
-        const Contacts = await User.find({
+        const contacts = await User.find({
             $and: [
                 { _id: { $ne: req.userId } },
                 {
@@ -29,8 +29,8 @@ export const searchContacts = async (req: CustomType, res: Response, next: NextF
             ]
         })
     
-        if(Contacts) {
-            return res.status(200).json(Contacts)
+        if(contacts) {
+            return res.status(200).json(contacts)
         }
     } catch(error) { 
         console.error(error) //Just learnt this method... then introduce it in my code ...
