@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import ContactContainer from "./components/ContactContainer/index.tsx"
 import EmptyChatContainer from "./components/EmptyChatConatiner"
-import ChatContainer from "./components/ChatContainer/Index"
+import ChatContainer from "./components/ChatContainer/Index.tsx"
 
 
 const Chat = () => {
   const { userInfo } = useAppStore()
   const navigate = useNavigate()
   React.useEffect(() => {
-    if (!userInfo.profileSetup) {
+    if (userInfo.profileSetup === false) {
       toast("Please setup profile to continue")
       navigate("/profile")
     }

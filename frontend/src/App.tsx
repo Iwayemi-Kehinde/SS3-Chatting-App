@@ -82,7 +82,9 @@ function App() {
           <Route
             path="/chat"
             element={
+              <PrivateRoute>
                 <Chat />
+              </PrivateRoute>
             }
           ></Route>
           <Route

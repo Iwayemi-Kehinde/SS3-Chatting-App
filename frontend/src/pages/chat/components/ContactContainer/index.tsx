@@ -68,27 +68,27 @@ const ContactsContainer = () => {
                 {searchedContacts.map((contact: contactInterface) => <div key={contact._id} className="flex gap-3 item-center cursor-pointer">
                   <div className="h-12 w-12 rounded-full overflow-hidden">
 
-                    {contact.image ? (
+                    {contact?.image ? (
                       <img
-                        src={`${HOST}${contact.image}`}
+                        src={`${HOST}${contact?.image}`}
                         alt="profile"
                         className="object-cover w-full h-full bg-black"
                       />
                     ) : (
                       <div
                         className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
-                          contact.color
+                          contact?.color
                         )}`}
                       >
-                        {contact.firstName
-                          ? contact.firstName.split("").shift()
+                        {contact?.firstName
+                          ? contact?.firstName.split("").shift()
                           : contact?.email.split("").shift()}
                       </div>
                     )}
                   </div>
                   <div className="flex flex-col">
                     <span>
-                      {contact.firstName && contact.lastName ? `${contact.firstName} ${contact.lastName}` : contact.email}
+                      {contact?.firstName && contact?.lastName ? `${contact?.firstName} ${contact?.lastName}` : contact?.email}
                     </span>
                     <span className="text-xs">{contact.email}</span>
                   </div>
@@ -122,20 +122,20 @@ const ContactsContainer = () => {
         <div className="flex gap-3 items-center justify-center">
           <div className="w-12 h-12 relative ">
             <div className="h-12 w-12  rounded-full overflow-hidden">
-              {userInfo.image ? (
+              {userInfo?.image ? (
                 <img
-                  src={`${HOST}${userInfo.image}`}
+                  src={`${HOST}${userInfo?.image}`}
                   alt="profile"
                   className="object-cover w-full h-full bg-black"
                 />
               ) : (
                 <div
                   className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
-                    userInfo.color
+                    userInfo?.color
                   )}`}
                 >
-                  {userInfo.firstName
-                    ? userInfo.firstName.split("").shift()
+                  {userInfo?.firstName
+                    ? userInfo?.firstName.split("").shift()
                     : userInfo?.email.split("").shift()}
                 </div>
               )}
@@ -144,7 +144,7 @@ const ContactsContainer = () => {
         </div>
 
         <div>
-          {userInfo.firstName && userInfo.lastName ? `${userInfo.firstName} ${userInfo.lastName}` : ""}
+          {userInfo?.firstName && userInfo?.lastName ? `${userInfo?.firstName} ${userInfo?.lastName}` : ""}
         </div>
         <div className="flex gap-5">
           <div>
