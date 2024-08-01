@@ -10,7 +10,7 @@ const MessageBar = () => {
   const handleMessage = async () => {
     
   }
-  const emojiRef = React.useRef()
+  const emojiRef = React.useRef(null)
 
 React.useEffect(() => {
   function handleClickOutside(event: Event){
@@ -41,7 +41,7 @@ React.useEffect(() => {
           <button className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all" onClick={() => setEmojiPickerOpen(true)}>
             <RiEmojiStickerLine className="text-2xl" />
           </button>
-          <div className="absolute bottom-16 right-0">
+          <div className="absolute bottom-16 right-0" ref={emojiRef}>
             <EmojiPicker theme={Theme.DARK} open={emojiPickerOpen} onEmojiClick={handleEmoji} autoFocusSearch={false}/>
           </div>
         </div>
