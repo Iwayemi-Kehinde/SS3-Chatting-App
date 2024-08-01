@@ -1,4 +1,4 @@
-const messageBar = () => {
+const MessageContainer = () => {
   return (
     <div>
       
@@ -6,4 +6,4 @@ const messageBar = () => {
 
   )
 } 
-export default messageBar
+export default MessageContainer

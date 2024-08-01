@@ -1,9 +1,8 @@
+import React from "react"
 import { useAppStore } from "../../store"
 import { useNavigate } from "react-router-dom"
-import React from "react"
 import { toast } from "react-toastify"
 import ContactContainer from "./components/contacts-container"
-import EmptyChatContainer from "./components/empty-chat-container"
 import ChatContainer from "./components/chat-container"
 
 const Chat = () => {

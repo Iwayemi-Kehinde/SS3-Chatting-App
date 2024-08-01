@@ -6,7 +6,7 @@ const ContactsContainer = () => {
       </div>
       <div className="my-5">
         <div className="flex items-center justify-between pr-10">
-          <Title text="direct messages"/>
+          <Title text="##direct messages"/>
         </div>
       </div>
 
@@ -14,7 +14,7 @@ const ContactsContainer = () => {
 
       <div className="my-5">
         <div className="flex items-center justify-between pr-10">
-          <Title text="Groups or channels"/>
+          <Title text="##channels"/>
         </div>
       </div>
     </div>
@@ -29,6 +29,6 @@ interface text{
 }
 const Title = ({text}: text) => {
   return (
-    <h4 className="uppercase tracking-videst text-neutral-400 pl-20 font-light text-opacity-90 text-sm">{text}</h4>
+    <h4 className="uppercase tracking-videst text-neutral-400 pl-10 font-light text-opacity-90 text-sm">{text}</h4>
   )
 }
