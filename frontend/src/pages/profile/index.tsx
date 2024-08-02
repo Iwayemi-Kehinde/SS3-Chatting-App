@@ -58,7 +58,7 @@ const Profile = () => {
         if (res.status === 200 && res.data) {
           setUserInfo({ ...res.data });
           toast.success(
-            `${res.data.firstName}, Now begin to chat with your loved ones`
+            `${res.data.firstName}, you can now begin to chat with your loved ones`
           );
           navigate("/chat");
         }
@@ -71,7 +71,7 @@ const Profile = () => {
   const handleFileInputClick = () => {
     fileInputRef.current.click();
   };
-  const handleImageChange = async (event: any /*for now*/) => {
+  const handleImageChange = async (event: any) => {
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();

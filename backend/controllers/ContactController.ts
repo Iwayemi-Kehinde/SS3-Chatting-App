@@ -16,15 +16,15 @@ export const searchContacts = async (req: CustomType, res: Response, next: NextF
     
     
         //sanitize with req exp
-        const sanitizedSearchTerm = searchTerm.replace()
+        // const sanitizedSearchTerm = searchTerm.replace()
     
-        const regex = new RegExp(sanitizedSearchTerm, "i")
+        // const regex = new RegExp(sanitizedSearchTerm, "i")
     
         const contacts = await User.find({
             $and: [
                 { _id: { $ne: req.userId } },
                 {
-                    $or: [{firstName: regex}, {lastName: regex}, {email: regex}]
+                    $or: [{firstName: searchTerm}, {lastName: searchTerm}, {email: searchTerm}]
                 }
             ]
         })
@@ -33,7 +33,7 @@ export const searchContacts = async (req: CustomType, res: Response, next: NextF
             return res.status(200).json(contacts)
         }
     } catch(error) { 
-        console.error(error) //Just learnt this method... then introduce it in my code ...
+        console.error(error) //Just learnt this method... then introduced it in my code ...
         return res.status(500).send("Internal server error")
     }
 }

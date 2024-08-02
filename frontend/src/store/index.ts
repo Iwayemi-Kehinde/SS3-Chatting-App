@@ -1,4 +1,5 @@
 import { create } from "zustand";
+// import { createChatSlice } from "./slices/chat-slice";
 
 
 export interface AuthSlice {
@@ -9,4 +10,5 @@ export interface AuthSlice {
 export const useAppStore = create<AuthSlice>((set) => ({
   userInfo: undefined,
   setUserInfo: (userInfo) => set({ userInfo }),
+  // ...createChatSlice(...a)
 }));
