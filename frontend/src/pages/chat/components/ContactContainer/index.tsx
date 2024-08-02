@@ -29,6 +29,8 @@ const ContactsContainer = () => {
     }
   }
 
+  const { setSelectedChatType, setSelectedChatData } = useAppStore()
+
   const [openNewContactModel, setopenNewContactModel] = React.useState<Boolean>(false)
 
   const [searchedContacts, setSearchedContacts] = React.useState([])
@@ -42,10 +44,18 @@ const ContactsContainer = () => {
         }
       } else {
         setSearchedContacts([])
-      } ``
+      }
     } catch (error) {
 
     }
+  }
+
+
+  const selectNewContact = (contact: any) => {
+    setopenNewContactModel(false)
+    setSelectedChatType("contact")
+    setSelectedChatData(contact)
+    setSearchedContacts([])
   }
   return (
     <div className="relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f343b] w-full ">
@@ -65,26 +75,28 @@ const ContactsContainer = () => {
                 <input type="text" placeholder="Search Contacts" className="rounded-lg p-6 bg-[#2c2e3b] outline-none text-gray-500" onChange={(e) => searchContacts(e.target.value)} />
               </div>
               <div className="flex flex-col gap-5">
-                {searchedContacts.map((contact: contactInterface) => <div key={contact._id} className="flex gap-3 item-center cursor-pointer">
-                  <div className="h-12 w-12 rounded-full overflow-hidden">
+                {searchedContacts.map((contact: contactInterface) => <div key={contact._id} className="flex gap-3 item-center cursor-pointer" onClick={() => selectNewContact(contact)}>
+                  <div className="w-12 h-12 relative">
+                    <div className="h-12 w-12 rounded-full overflow-hidden">
 
-                    {contact?.image ? (
-                      <img
-                        src={`${HOST}${contact?.image}`}
-                        alt="profile"
-                        className="object-cover w-full h-full bg-black"
-                      />
-                    ) : (
-                      <div
-                        className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
-                          contact?.color
-                        )}`}
-                      >
-                        {contact?.firstName
-                          ? contact?.firstName.split("").shift()
-                          : contact?.email.split("").shift()}
-                      </div>
-                    )}
+                      {contact?.image ? (
+                        <img
+                          src={`${HOST}${contact?.image}`}
+                          alt="profile"
+                          className="object-cover w-full h-full bg-black"
+                        />
+                      ) : (
+                        <div
+                          className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
+                            contact?.color
+                          )}`}
+                        >
+                          {contact?.firstName
+                            ? contact?.firstName.split("").shift()
+                            : contact?.email.split("").shift()}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="flex flex-col">
                     <span>

@@ -19,8 +19,11 @@ const Chat = () => {
   return (
     <div className="flex h-[100vh] text-white overflow-hidden">
       <ContactContainer />
-      <EmptyChatContainer />
-      <ChatContainer />
+      {
+        selectedChatType === undefined ? <EmptyChatContainer /> : <ChatContainer />
+      }
+      {/* <EmptyChatContainer />
+      <ChatContainer /> */}
     </div>
   )
 } 
