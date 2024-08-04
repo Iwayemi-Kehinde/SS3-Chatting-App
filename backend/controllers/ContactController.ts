@@ -15,10 +15,10 @@ export const searchContacts = async (req: CustomType, res: Response, next: NextF
         }
     
     
-        //sanitize with req exp
-        // const sanitizedSearchTerm = searchTerm.replace()
+        sanitize with req exp
+        const sanitizedSearchTerm = searchTerm.replace()
     
-        // const regex = new RegExp(sanitizedSearchTerm, "i")
+        const regex = new RegExp(sanitizedSearchTerm, "i")
     
         const contacts = await User.find({
             $and: [

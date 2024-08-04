@@ -1,9 +1,9 @@
 import React from "react"
-import { useAppStore } from "../../store"
+import { useAppStore } from "../../store/index.ts"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import ContactContainer from "./components/ContactContainer/index.tsx"
-import EmptyChatContainer from "./components/EmptyChatConatiner"
+import EmptyChatContainer from "./components/EmptyChatConatiner/index.tsx"
 import ChatContainer from "./components/ChatContainer/Index.tsx"
 
 
@@ -23,7 +23,7 @@ const Chat = () => {
         selectedChatType === undefined ? <EmptyChatContainer /> : <ChatContainer />
       } */}
       <EmptyChatContainer />
-      <ChatContainer />
+      {/* <ChatContainer /> */}
     </div>
   )
 } 
