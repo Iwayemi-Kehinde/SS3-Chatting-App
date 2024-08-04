@@ -1,9 +1,20 @@
-export const createChatSlice = (set: any, get: any) => ({
+export type ChatSlice = {
+    selectedChatType: any; 
+    selectedChatData: any; 
+    selectedChatMessages: any[]; 
+    setSelectedChatType: (selectedChatType: any) => void;
+    setSelectedChatData: (selectedChatData: any) => void;
+    setSelectedChatMessages: (selectedChatMessages: any[]) => void;
+    closeChat: () => void;
+  };
+  
+  export const createChatSlice = (set: (partial: Partial<ChatSlice>) => void, get: any): ChatSlice => ({
     selectedChatType: undefined,
     selectedChatData: undefined,
     selectedChatMessages: [],
-    setSelectedChatType: (selectedChatType: any) => set({ selectedChatType }),
-    setSelectedChatData: (selectedChatData: any) => set({ selectedChatData }),
-    setSelectedChatMessages: (selectedChatMessages: any) => set({ selectedChatMessages }),
-    closeChat: () => set({ selectedChatData: undefined, selectedChatType: undefined, selectedChatMessages: [] })
-})
+    setSelectedChatType: (selectedChatType) => set({ selectedChatType }),
+    setSelectedChatData: (selectedChatData) => set({ selectedChatData }),
+    setSelectedChatMessages: (selectedChatMessages) => set({ selectedChatMessages }),
+    closeChat: () => set({ selectedChatType: undefined, selectedChatData: undefined, selectedChatMessages: [] }),
+  });
+  

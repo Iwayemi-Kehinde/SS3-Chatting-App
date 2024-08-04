@@ -6,17 +6,15 @@ type UserInfo = {
   lastName?: string;
   image?: string;
   color?: number;
-  profileSetup?: Boolean
+  profileSetup?: boolean;
 };
 
 export type AuthSlice = {
-  userInfo: UserInfo | undefined;
-  setUserInfo: (userInfo: UserInfo | undefined) => void;
+  userInfo: UserInfo | any;
+  setUserInfo: (userInfo: UserInfo | any) => void;
 };
 
-export const createAuthSlice = (
-  set: (partial: Partial<AuthSlice>) => void
-): AuthSlice => ({
+export const createAuthSlice = (set: (partial: Partial<AuthSlice>) => void): AuthSlice => ({
   userInfo: undefined,
   setUserInfo: (userInfo) => set({ userInfo }),
 });
