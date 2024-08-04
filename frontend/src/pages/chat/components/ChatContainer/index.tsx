@@ -10,7 +10,6 @@ import { getColors } from "../../../../utils/constants"
 
 const ChatContainer = () => {
   const [message, setMessage] = React.useState<string | number>("")
-
   const handleMessage = async () => {
 
   }
@@ -43,31 +42,6 @@ const ChatContainer = () => {
         <div className="flex gap-5 items-center">
           <div className="flex gap-3 items-center justify-center">
 
-<<<<<<< HEAD
-            <div className="w-12 h-12 relative">
-              <div className="h-12 w-12 rounded-full overflow-hidden">
-
-                {selectedChatData?.image ? (
-                  <img
-                    src={`${HOST}${selectedChatData?.image}`}
-                    alt="profile"
-                    className="object-cover w-full h-full bg-black"
-                  />
-                ) : (
-                  <div
-                    className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
-                      selectedChatData?.color
-                    )}`}
-                  >
-                    {selectedChatData?.firstName
-                      ? selectedChatData?.firstName.split("").shift()
-                      : selectedChatData?.email.split("").shift()}
-                  </div>
-                )}
-              </div>
-            </div>
-
-=======
 
 
           <div className="w-12 h-12 relative">
@@ -93,7 +67,6 @@ const ChatContainer = () => {
                     </div>
                   </div>
             
->>>>>>> 5dcd9f9c23dfa312d495664dca923511f330c984
 
 
             <div className="flex items-center justify-center gap-5">
