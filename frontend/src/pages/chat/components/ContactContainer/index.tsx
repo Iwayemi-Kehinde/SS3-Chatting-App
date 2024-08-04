@@ -29,7 +29,11 @@ const ContactsContainer = () => {
     }
   }
 
+<<<<<<< HEAD
   // const { setSelectedChatType, setSelectedChatData } = useAppStore()
+=======
+  const { setSelectedChatType, setSelectedChatData } = useAppStore()
+>>>>>>> 5dcd9f9c23dfa312d495664dca923511f330c984
 
   const [openNewContactModel, setopenNewContactModel] = React.useState<Boolean>(false)
 
