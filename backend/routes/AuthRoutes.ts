@@ -17,5 +17,5 @@ authRoute.post("/update-profile", verifyToken, updateProfile)
 authRoute.get("/userInfo", verifyToken, getUserInfo)
 authRoute.post("/add-profile-image", verifyToken, upload.single("profile-image"), addProfileImage)
 authRoute.delete("/remove-profile-image", verifyToken, deleteProfileImage)
-authRoute.post("/logout", logout)
+authRoute.get("/logout", logout)
 export default authRoute
