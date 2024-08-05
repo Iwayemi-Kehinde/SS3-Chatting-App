@@ -23,7 +23,7 @@ const ContactsContainer = () => {
   const { userInfo, setUserInfo, setSelectedChatType, setSelectedChatData } = useAppStore()
   const navigate = useNavigate()
   const handleLogout = async () => {
-    const res = await axios.post(`${HOST}api/auth/logout`, { withCredentials: true })
+    const res = await axios.get(`${HOST}api/auth/logout`, { withCredentials: true })
     if (res.status === 200) {
       toast.success("Logout successfull")
       navigate("/auth")
@@ -45,11 +45,12 @@ const ContactsContainer = () => {
         if (res.status === 200 && res.data.contacts) {
           setSearchedContacts(res.data.contacts)
           setSearchTerm("")
-        } else if (res.status === 404) {
-          toast.info("No user found !")
+        } 
+        if (res.status === 404) {
+          toast.error("No user found!")
         }
       } else {
-        toast.info("Input field cannot be empty")
+        toast.error("Input field cannot be empty")
       }
     } catch (error) {
       console.log(error)
@@ -84,7 +85,7 @@ const ContactsContainer = () => {
 
                 <div className="relative rounded-lg p-2 w-full bg-[#2c2e3b]">
                   <input type="text" placeholder="Search Contacts" className="border-none rounded-lg p-2 w-full bg-[#2c2e3b] outline-none text-white" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                  <button type="button" onClick={searchContacts} className="active:scale-60 transition duration-800 absolute right-[20px] bg-purple-600 text-white p-2 rounded hover:bg-purple-700">
+                  <button type="button" onClick={searchContacts} className="focus:scale-60 transition duration-800 absolute right-[20px] bg-purple-600 text-white p-2 rounded hover:bg-purple-700">
                     <FaSearch className="w-5 h-5 text-white" />
                   </button>
                 </div>
@@ -93,28 +94,28 @@ const ContactsContainer = () => {
                     <div className="w-12 h-12 relative">
                       <div className="h-12 w-12 rounded-full overflow-hidden">
 
-                        {contact?.image ? (
+                        {contact.image ? (
                           <img
-                            src={`${HOST}${contact?.image}`}
+                            src={`${HOST}${contact.image}`}
                             alt="profile"
                             className="object-cover w-full h-full bg-black"
                           />
                         ) : (
                           <div
                             className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
-                              contact?.color
+                              contact.color
                             )}`}
                           >
-                            {contact?.firstName
-                              ? contact?.firstName.split("").shift()
-                              : contact?.email.split("").shift()}
+                            {contact.firstName
+                              ? contact.firstName.split("").shift()
+                              : contact.email.split("").shift()}
                           </div>
                         )}
                       </div>
                     </div>
                     <div className="flex flex-col">
                       <span>
-                        {contact?.firstName && contact?.lastName ? `${contact?.firstName} ${contact?.lastName}` : contact?.email}
+                        {contact.firstName && contact.lastName ? `${contact.firstName} ${contact.lastName}` : contact.email}
                       </span>
                       <span className="text-xs">{contact.email}</span>
                     </div>
@@ -147,21 +148,21 @@ const ContactsContainer = () => {
           <div className="flex gap-3 items-center justify-center">
             <div className="w-12 h-12 relative ">
               <div className="h-12 w-12  rounded-full overflow-hidden">
-                {userInfo?.image ? (
+                {userInfo.image ? (
                   <img
-                    src={`${HOST}${userInfo?.image}`}
+                    src={`${HOST}${userInfo.image}`}
                     alt="profile"
                     className="object-cover w-full h-full bg-black"
                   />
                 ) : (
                   <div
                     className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
-                      userInfo?.color
+                      userInfo.color
                     )}`}
                   >
                     {userInfo?.firstName
-                      ? userInfo?.firstName.split("").shift()
-                      : userInfo?.email.split("").shift()}
+                      ? userInfo.firstName.split("").shift()
+                      : userInfo.email.split("").shift()}
                   </div>
                 )}
               </div>
@@ -169,7 +170,7 @@ const ContactsContainer = () => {
           </div>
 
           <div>
-            {userInfo?.firstName && userInfo?.lastName ? `${userInfo?.firstName} ${userInfo?.lastName}` : ""}
+            {userInfo.firstName && userInfo.lastName ? `${userInfo.firstName} ${userInfo.lastName}` : ""}
           </div>
           <div className="flex gap-5">
             <div>

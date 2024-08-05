@@ -4,5 +4,5 @@ import { createChatSlice, ChatSlice } from "./slices/chat-slice";
 
 export const useAppStore = create<AuthSlice & ChatSlice>((set, get) => ({
   ...createAuthSlice(set),
-  ...createChatSlice(set, get),
+  ...createChatSlice(set, get)
 }));
