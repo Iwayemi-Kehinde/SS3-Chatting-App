@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import AuthRoute from "./routes/AuthRoutes"
 import { Request, Response, NextFunction } from "express";
 import ContactRoutes from "./routes/ContactRoutes";
+import setupSocket from "./socket";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use(express.json())
 app.use("/api/auth", AuthRoute)
 app.use("/api/contact", ContactRoutes)
 
+
 //db connect
 mongoose
   .connect(process.env.MONGO_URI)
@@ -45,6 +47,9 @@ app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Hello chat app" });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
+
+setupSocket(server)
+
