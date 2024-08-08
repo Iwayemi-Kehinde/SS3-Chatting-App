@@ -20,6 +20,22 @@ const setupSocket = (server: any) => {
 		}
 	}
 
+	const sendMessage = async (message) => {
+		const senderSocketId = userSocketMap.get(message.sender)
+		const recipeintSocketId = userSocketMap.get(message.recipient)
+
+		const createMessage = await Message.create(message)
+
+		const messageData = await MessageChannel.findById(createdMessage._id).populate("sender", "id email firstName lastNsme image color").populate("recipient", "id email firstName lastNsme image color")
+		if(recipeintSocketId) {
+			io.to(recipientSocketId).emit("recieveMessage", messageData)
+		}
+
+		if(senderSocketId) {
+			io.to(senderSocketId).emit("recieveMessage", messageData)
+		}
+	}
+
 	io.on("connection", (socket: any) => {
 		const userId = socket.handshake.query.userId
 		if(userId) {
@@ -28,6 +44,7 @@ const setupSocket = (server: any) => {
 		} else {
 			console.log("User ID not provided during connection")
 		}
+		socket.on("sendMessaage", sendMessage)
 		socket.on("disconnect", () => disconnect(socket))
 	})
 }
