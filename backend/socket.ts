@@ -2,6 +2,8 @@ import { Server as SocketIOServer } from "socket.io"
 import Messages from "./models/MessagesModel"
 
 const setupSocket = (server: any) => {
+
+  //websocket initialization
 	const io = new SocketIOServer(server, {
 		cors: {
 			origin: process.env.ORIGIN,
@@ -11,7 +13,6 @@ const setupSocket = (server: any) => {
 	})
 
 	const userSocketMap = new Map()
-
 	const disconnect = (socket: any) => {
 		console.log(`Client disconnected ${socket.id}`)
 		for(const [userId, socketId] of userSocketMap.entries()) {
@@ -25,7 +26,6 @@ const setupSocket = (server: any) => {
 	const sendMessage = async (message: any) => {
 		const senderSocketId = userSocketMap.get(message.sender)   
 		const recipientSocketId = userSocketMap.get(message.recipient)
-
 		const createdMessage = await Messages.create(message)
 
 		const messageData = await Messages.findById(createdMessage._id).populate("sender", "id email firstName lastName image color").populate("recipient", "id email firstName lastName image color")
@@ -46,7 +46,7 @@ const setupSocket = (server: any) => {
 		} else {
 			console.log("User ID not provided during connection")
 		}
-		socket.on("sendMessaage", sendMessage)
+		socket.on("sendMessage", sendMessage)
 		socket.on("disconnect", () => disconnect(socket))
 	})
 }
