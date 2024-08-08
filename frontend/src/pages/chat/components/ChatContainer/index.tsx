@@ -7,11 +7,22 @@ import EmojiPicker, { Theme } from "emoji-picker-react"
 import { useAppStore } from "../../../../store"
 import { HOST } from "../../../../utils/constants"
 import { getColors } from "../../../../utils/constants"
+import { useSocket } from "../../../../context/SocketContext"
+import MessageContainer from "./MessageContainer.tsx"
 
 const ChatContainer = () => {
   const [message, setMessage] = React.useState<string | number>("")
+  const socket: any = useSocket()
   const handleMessage = async () => {
-
+    if (selectedChatType === "contect") {
+      socket.emit("sendMessage", {
+        sender: userInfo.id,
+        content: message,
+        recipient: selectedChatData._id,
+        messageType: "text",
+        fileUrl: undefined
+      })
+    }
   }
 
 
@@ -19,7 +30,7 @@ const ChatContainer = () => {
 
   React.useEffect(() => {
     function handleClickOutside(event: Event) {
-      if (emojiRef.current && !emojiRef.current.contains(event?.target)) {
+      if (emojiRef.current && !emojiRef.current.contains(event.target)) {
         setEmojiPickerOpen(false)
       }
     }
@@ -35,48 +46,48 @@ const ChatContainer = () => {
     setMessage((msg: any) => emoji * msg)
   )
   const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false)
-  const { closeChat, selectedChatData } = useAppStore()
+  const { closeChat, selectedChatData, selectedChatType, userInfo } = useAppStore()
   return (
-    <div className="fixed top-0 h-[100vh] bg-[#1c1d25] flex flex-col w-[100vw]">
-      <div className="h-[100vh] border-b-2 border-[#2f303b] flex items-center justify-center">
-        <div className="flex gap-5 items-center">
-          <div className="flex gap-3 items-center justify-center">
+    <div className="fixed bg-[#1b1c24] top-0 bottom-0 flex flex-col justify-between w-[100vw]">
+      <div className="h-[10vh] border-b-2 border-[#2f303b] flex items-center justify-between px-20">
+        <div className="flex gap-5 items-center w-full">
+          <div className="flex gap-3 items-center justify-between w-full">
+            <div className="flex items-center gap-[10px]">
 
-
-
-          <div className="w-12 h-12 relative">
-                    <div className="h-12 w-12 rounded-full overflow-hidden">
-
-                      {selectedChatData?.image ? (
-                        <img
-                          src={`${HOST}${selectedChatData?.image}`}
-                          alt="profile"
-                          className="object-cover w-full h-full bg-black"
-                        />
-                      ) : (
-                        <div
-                          className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
-                            selectedChatData?.color
-                          )}`}
-                        >
-                          {selectedChatData?.firstName
-                            ? selectedChatData?.firstName.split("").shift()
-                            : selectedChatData?.email.split("").shift()}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-            
-
-
-            <div className="flex items-center justify-center gap-5">
-              <button className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all" onClick={closeChat}>
-                <RiCloseFill className="text-3xl" />
-              </button>
+              {selectedChatData.image ? (
+                <img
+                  src={`${HOST}${selectedChatData?.image}`}
+                  alt="profile"
+                  className="object-cover w-full h-full bg-black"
+                />
+              ) : (
+                <div
+                  className={`uppercase h-12 w-12 text-md border-[1px] flex items-center justify-center rounded-full ${getColors(
+                    selectedChatData.color
+                  )}`}
+                >
+                  {selectedChatData.firstName
+                    ? selectedChatData.firstName.split("").shift()
+                    : selectedChatData.email.split("").shift()}
+                </div>
+              )}
+              <div>
+                {selectedChatType === "contact" && selectedChatData.firstName ? `${selectedChatData.firstName} ${selectedChatData.lastName}` : selectedChatData.email}
+              </div>
             </div>
+
+
+            <button className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all" onClick={closeChat}>
+              <RiCloseFill className="text-3xl" />
+            </button>
+
+
           </div>
         </div>
       </div>
+
+      <MessageContainer />
+
       <div className="h-[10vh] bg-[#1c1d25] flex justify-center items-center px-8 mb-6 gap-6">
         <div className="flex-1 flex bg-[#2a2b33] rounded-md items-center gap-5 pr-5">
           <input type="text" value={message} className="flex-1 p-5 bg-transparent rounded-md focus:border-none focus:outline-none" placeholder="Enter message" onChange={(e) => setMessage(e.target.value)} />
